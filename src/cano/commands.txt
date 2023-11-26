@@ -1,0 +1,87 @@
+X = plain value as a double
+#X = value at memory address X
+
+
+GOTO A 
+- go to line A
+SKP A B
+- Skips B lines if A > 0  
+END 
+- end program
+
+
+-- MATHS --
+STO A B
+- A -> B
+INC A
+- A + 1 -> A
+DCR A
+- A - 1 -> A
+ADD A B C 
+- A + B -> C
+SUB A B C 
+- A - B -> C
+MUL A B C 
+- A * B -> C
+DIV A B C 
+- A / B -> C
+MOD A B C 
+- A % B -> C
+FDV A B C 
+- A // B -> C
+POW A B C 
+- A ^ B -> C
+TAN A B
+- tanA -> B
+SIN A B
+- sinA -> B
+COS A B
+- cosA -> B
+TANI A B
+- inverse tanA -> B
+SINI A B
+- inverse sinA -> B
+COSI A B
+- inverse cosA -> B
+ROUND A B
+- rounds A -> B
+
+-- COMPARISONS --
+EQU A B C
+- A == B -> C
+NOT A B
+- not A -> B
+AND A B C
+- A and B -> C
+OR A B C
+- A or B -> C
+XOR A B C
+- A xor B -> C
+GRT A B C
+- A > B -> C
+SML A B C
+- A < B -> C
+
+-- I/O --
+PRINT A B 
+- print from address A to B
+PRINTLN A B 
+- print new line from address A to B
+PRINTC A B 
+- print from address A to B converting to characters
+PRINTLNC A B 
+- print new line from address A to B converting to characters
+GETW A B 
+- input (ascii) -> A to B
+GETN A 
+- input (double) -> A
+
+-- FILES -- 
+NEWF A B 
+- new file with name A to B converting to ascii characters
+READF A B C D 
+- read a file with name A to B and store data in C to D
+WRITEF A B C D 
+- write to a file name A to B with data C to D
+RUN A 
+- starts file A
