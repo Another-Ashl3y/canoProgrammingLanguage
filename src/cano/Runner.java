@@ -31,6 +31,7 @@ public class Runner {
 			double q;
 			double u;
 			double v;
+			String a;
 			
 			operations = data.split("\n");
 
@@ -47,7 +48,7 @@ public class Runner {
 						break;
 					case "RUN":
 						String next_path = operation[1];
-						System.out.println(next_path);
+//						System.out.println(next_path);
 						this.run(next_path);
 						break;
 					case "SKP":
@@ -115,6 +116,47 @@ public class Runner {
 							System.out.println(memory[(int) (p+i)]);
 						}
 						break;
+					case "PRINTC":
+						p = getV(operation[1]);
+						q = getV(operation[2])+1;
+						for (int i = 0; i < q-p; i++) {
+							System.out.print((char) memory[(int) (p+i)]);
+						}
+						break;
+					case "PRINTLNC":
+						p = getV(operation[1]);
+						q = getV(operation[2])+1;
+						for (int i = 0; i < q-p; i++) {
+							System.out.println((char) memory[(int) (p+i)]);
+						}
+						break;
+					case "GETW":
+						a = getInput();
+						char[] b = a.toCharArray();
+						p = getV(operation[1]);
+						q = getV(operation[2])+1;
+						for (int i = 0; i < q-p; i++) {
+							if (i < b.length) {
+								memory[(int) (p+i)] = (int) b[i];
+							}
+							else  {
+								memory[(int) (p+i)] = 0;
+							}
+						}
+						break;
+					case "GETN":
+						a = getInput();
+						p = getV(operation[1]);
+						memory[(int) p] = Double.valueOf(a);
+						break;
+					case "RST":
+						p = getV(operation[1]);
+						q = getV(operation[2])+1;
+						for (int i = 0; i < q-p; i++) {
+							memory[(int) (p+i)] = 0;
+						}
+						break;
+						
 				}
 				current_line += 1;
 			}
@@ -135,5 +177,9 @@ public class Runner {
 			out = Double.valueOf(x);
 		}
 		return out;
+	}
+	public String getInput() {
+		Scanner scan = new Scanner(System.in);
+		return scan.nextLine();
 	}
 } 
