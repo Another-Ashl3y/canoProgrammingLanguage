@@ -2,6 +2,8 @@ package cano;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Runner {
@@ -32,6 +34,7 @@ public class Runner {
 			double u;
 			double v;
 			String a;
+			String B;
 			
 			operations = data.split("\n");
 
@@ -71,11 +74,122 @@ public class Runner {
 						p = getV(operation[1]);
 						memory[(int) p ] -= 1;
 						break;
+					case "ADD":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						v = getV(operation[3]);
+						memory[(int) v] = p+q;
+						break;
+					case "SUB":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						v = getV(operation[3]);
+						memory[(int) v] = p-q;
+						break;
+					case "MUL":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						v = getV(operation[3]);
+						memory[(int) v] = p*q;
+						break;
+					case "DIV":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						v = getV(operation[3]);
+						memory[(int) v] = p/q;
+						break;
+					case "MOD":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						v = getV(operation[3]);
+						memory[(int) v] = p%q;
+						break;
+					case "FDV":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						v = getV(operation[3]);
+						memory[(int) v] = Math.floorDiv((long) p, (long) q);
+						break;
+					case "POW":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						v = getV(operation[3]);
+						memory[(int) v] = Math.pow(p, q);
+						break;
+					case "TAN":
+						p = getV(operation[1]);
+						v = getV(operation[2]);
+						memory[(int) v] = Math.tan(p);
+						break;
+					case "SIN":
+						p = getV(operation[1]);
+						v = getV(operation[2]);
+						memory[(int) v] = Math.sin(p);
+						break;
+					case "COS":
+						p = getV(operation[1]);
+						v = getV(operation[2]);
+						memory[(int) v] = Math.cos(p);
+						break;
+					case "ROUND":
+						p = getV(operation[1]);
+						v = getV(operation[2]);
+						memory[(int) v] = Math.round(p);
+						break;
 					case "EQU":
 						p = getV(operation[1]);
 						q = getV(operation[2]);
 						u = getV(operation[3]);
 						if (p==q) {
+							memory[(int) u] = 1;
+						} else {
+							memory[(int) u] = 0;
+						}
+						break;
+					case "NOT":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						if (p==0) {
+							memory[(int) q] = 1;
+						} else {
+							memory[(int) q] = 0;
+						}
+						break;
+					case "NQU":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						u = getV(operation[3]);
+						if (p!=q) {
+							memory[(int) u] = 1;
+						} else {
+							memory[(int) u] = 0;
+						}
+						break;
+					case "AND":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						u = getV(operation[3]);
+						if (p>0 & q>0) {
+							memory[(int) u] = 1;
+						} else {
+							memory[(int) u] = 0;
+						}
+						break;
+					case "OR":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						u = getV(operation[3]);
+						if (p>0 | q>0) {
+							memory[(int) u] = 1;
+						} else {
+							memory[(int) u] = 0;
+						}
+						break;
+					case "XOR":
+						p = getV(operation[1]);
+						q = getV(operation[2]);
+						u = getV(operation[3]);
+						if ((p>0 & q<=0)|(q>0 & p<= 0)) {
 							memory[(int) u] = 1;
 						} else {
 							memory[(int) u] = 0;
@@ -156,6 +270,60 @@ public class Runner {
 							memory[(int) (p+i)] = 0;
 						}
 						break;
+					case "NEWF":
+						a = "";
+						p = getV(operation[1]);
+						q = getV(operation[2])+1;
+						for (int i = 0; i < q-p; i++) {
+							a += (char) (int) memory[(int) (i + p)];
+						}
+						makeFile(a);
+						break;
+					case "WRITEFC":
+						a = "";
+						B = "";
+						p = getV(operation[1]);
+						q = getV(operation[2])+1;
+						u = getV(operation[3]);
+						v = getV(operation[4])+1;
+						for (int i = 0; i < q-p; i++) {
+							a += (char) (int) memory[(int) (i + p)];
+						}
+						for (int i = 0; i < v-u; i++) {
+							B += (char) (int) memory[(int) (i + u)];
+						}
+						writeFile(a, B);
+						break;
+					case "WRITEF":
+						a = "";
+						B = "";
+						p = getV(operation[1]);
+						q = getV(operation[2])+1;
+						u = getV(operation[3]);
+						v = getV(operation[4])+1;
+						for (int i = 0; i < q-p; i++) {
+							a += (char) (int) memory[(int) (i + p)];
+						}
+						for (int i = 0; i < v-u; i++) {
+							B += Double.toString(memory[(int) (i + u)]) + ", ";
+						}
+						writeFile(a, B);
+						break;
+					case "READF":
+						a = "";
+						B = "";
+						p = getV(operation[1]);
+						q = getV(operation[2])+1;
+						u = getV(operation[3]);
+						v = getV(operation[4])+1;
+						for (int i = 0; i < q-p; i++) {
+							a += (char) (int) memory[(int) (i + p)];
+						}
+						String Q = readFile(a);
+						for (int i = 0; i < v-u; i++) {
+							memory[(int) (i+u)] = (int) Q.charAt(i);
+						}
+						break;
 						
 				}
 				current_line += 1;
@@ -181,5 +349,43 @@ public class Runner {
 	public String getInput() {
 		Scanner scan = new Scanner(System.in);
 		return scan.nextLine();
+	}
+	public void makeFile(String n) {
+		try {
+			File myObj = new File(path+n);
+			if (myObj.createNewFile()) {
+			} 
+			else {
+				System.out.println("File already exists.");
+			}
+		} 
+		catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
+	public void writeFile(String n, String d) {
+		try {
+			FileWriter myWriter = new FileWriter(path+n);
+			myWriter.write(d);
+			myWriter.close();
+		} catch (IOException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+	}
+	public String readFile(String n) {
+		String out = "";
+		try {
+			File file = new File(path+n);
+			Scanner scan = new Scanner(file);
+			while(scan.hasNextLine()) {
+				out += scan.nextLine() + "\n";
+			}
+			scan.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return out;
 	}
 } 
