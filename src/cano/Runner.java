@@ -155,6 +155,10 @@ public class Runner {
 							memory[(int) q] = 0;
 						}
 						break;
+					case "RNG":
+						p = getV(operation[1]);
+						memory[(int) p] = Math.random();
+						break;
 					case "NQU":
 						p = getV(operation[1]);
 						q = getV(operation[2]);
