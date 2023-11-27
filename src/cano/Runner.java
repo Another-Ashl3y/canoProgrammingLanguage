@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Runner {
+	Map<String, Integer> map = new HashMap<String, Integer>();
 	double[] memory;
 	char[] chars;
 	String path;
@@ -58,6 +61,7 @@ public class Runner {
 						p = getV(operation[1]);
 						q = getV(operation[2]);
 						if (p > 0) {
+//							System.out.println(p);
 							current_line += (int) q;
 						}
 						break;
@@ -328,6 +332,11 @@ public class Runner {
 							memory[(int) (i+u)] = (int) Q.charAt(i);
 						}
 						break;
+					case "BIND":
+						a = operation[1];
+						p = getV(operation[2]);
+						map.put(a, (int) p);
+						break;
 						
 				}
 				current_line += 1;
@@ -345,6 +354,17 @@ public class Runner {
 			x = x.replace("#","");
 			int y = Integer.valueOf(x);
 			out = memory[y];
+		} else if (x.charAt(0) == ".".charAt(0)) {
+			x = x.replace(".", "");
+			if (x.charAt(0) == "#".charAt(0)){
+				x = x.replace("#", "");
+				if (map.keySet().contains(x)) {
+					out = memory[map.get(x)];
+				}
+			}
+			else if (map.keySet().contains(x)) {
+				out = map.get(x);
+			}
 		} else {
 			out = Double.valueOf(x);
 		}
